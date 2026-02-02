@@ -11,6 +11,7 @@ app = Flask(__name__)
 @app.route("/", methods=["GET", "POST"])
 def index():
     grafica = None
+    row = None
     t = []
     X = []
     S = []
