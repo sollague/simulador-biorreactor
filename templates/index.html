@@ -1,0 +1,73 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Simulador de Biorreactor</title>
+    <style>
+        body{ font-family: Arial, Helvetica, sans-serif; background:#f6f7fb; color:#222; margin:0; padding:20px }
+        .container{ max-width:900px; margin:0 auto; background:#fff; padding:20px; border-radius:8px; box-shadow:0 6px 18px rgba(0,0,0,0.06) }
+        h1{ margin-top:0; color:#0b5ed7 }
+        form{ display:flex; gap:12px; flex-wrap:wrap; align-items:center }
+        label{ min-width:180px }
+        input[type=number]{ padding:8px 10px; border:1px solid #cfd8e3; border-radius:6px }
+        button{ background:#0b5ed7; color:#fff; border:none; padding:10px 16px; border-radius:6px; cursor:pointer }
+        button:hover{ background:#094bb0 }
+        .results{ margin-top:18px }
+        img{ max-width:100%; height:auto; border-radius:6px; box-shadow:0 4px 12px rgba(11,94,215,0.08) }
+        table{ border-collapse:collapse; width:100%; margin-top:12px }
+        th,td{ border:1px solid #e6eef8; padding:10px; text-align:center }
+        th{ background:#f1f6ff }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Simulador de Biorreactor</h1>
+
+    <form method="post">
+        <label>Tiempo de fermentación (h):</label>
+        <input type="number" step="0.01" name="tiempo" required placeholder="p. ej. 5.25">
+        <button type="submit">Simular</button>
+    </form>
+
+    {% if grafica %}
+    <div class="results">
+        <h2>Resultados</h2>
+        <img src="{{ url_for('static', filename=grafica) }}" alt="Gráfica de resultados">
+
+        {% if row %}
+        <h3>Valor al tiempo final ({{ row.hora }} h)</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Tiempo (h)</th>
+                    <th>Biomasa (g/L)</th>
+                    <th>Sustrato (g/L)</th>
+                    <th>Volumen (L)</th>
+                    <th>pH</th>
+                    <th>Temperatura (°C)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{ '%.3f' % row.hora }}</td>
+                    <td>{{ '%.3f' % row.X }}</td>
+                    <td>{{ '%.3f' % row.S }}</td>
+                    <td>{{ '%.3f' % row.V }}</td>
+                    <td>{{ '%.3f' % row.pH }}</td>
+                    <td>{{ '%.3f' % row.T }}</td>
+                </tr>
+            </tbody>
+        </table>
+        {% endif %}
+    </div>
+    {% endif %}
+
+</div>
+
+</body>
+</html>
+
+
+
